@@ -34,6 +34,6 @@ public class Main {
 		}
 
 		comb(0,0);
-		
+		br.close();
 	}
 }
