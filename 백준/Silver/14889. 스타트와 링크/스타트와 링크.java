@@ -10,6 +10,11 @@ public class Main {
 
 	static void comb(int count, int idx) {
 		if (count == N / 2) {
+            //StringBuilder sb=new StringBuilder();
+            //for(int i=0;i<N;i++) {
+            //	if(v[i])sb.append(i).append(" ");
+            //}
+            //System.out.println(sb);
 			diff();
 			return;
 		}
