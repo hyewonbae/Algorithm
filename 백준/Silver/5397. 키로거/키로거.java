@@ -3,52 +3,46 @@ import java.io.*;
 
 // LinkedList
 public class Main {
-    
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	static LinkedList<Character> lnklist;
+	static int N;
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int N = Integer.parseInt(br.readLine());    
+		N = Integer.parseInt(br.readLine());
+		for (int i = 0; i < N; i++) {
+			lnklist = new LinkedList<>();
+			ListIterator<Character> list = lnklist.listIterator();
+			String str = br.readLine();
 
-        for (int i = 0; i < N; i++) {
-            String input = br.readLine();
-            LinkedList<Character> list = new LinkedList<Character>();
-            
-            int pointer = 0; // 현재 위치를 추적할 포인터
+			for (int j = 0; j < str.length(); j++) {
+				char c = str.charAt(j);
+				switch (c) {
+				case '<':
+					if (list.hasPrevious()) {
+						list.previous();
+					}
+					break;
+				case '>':
+					if (list.hasNext()) {
+						list.next();
+					}
+					break;
+				case '-':
+					if (list.hasPrevious()) {
+						list.previous();
+						list.remove();
+					}
+					break;
+				default:
+					list.add(c);
+				}
+			}
 
-            // 입력 문자열의 각 문자를 처리
-            for (int j = 0; j < input.length(); j++) {
-                char c = input.charAt(j);
-
-                if (c == '<') {
-                    if (pointer > 0) {
-                        pointer--;
-                    }
-                } else if (c == '>') {
-                    if (pointer < list.size()) {
-                        pointer++;
-                    }
-                } else if (c == '-') {
-                    if (pointer > 0) {
-                        pointer--;
-                        list.remove(pointer);
-                    }
-                } else {
-                    list.add(pointer, c);
-                    pointer++;
-                }
-            }
-
-            StringBuilder sb = new StringBuilder();
-            for (char c : list) {
-                sb.append(c);
-            }
-            sb.append('\n');
-            bw.write(sb.toString());
-        }
-
-        bw.flush();
-        bw.close();
-        br.close();
-    }
+			StringBuilder sb = new StringBuilder();
+			for (char s : lnklist) {
+				sb.append(s);
+			}
+			System.out.println(sb.toString());
+		}
+	}
 }
