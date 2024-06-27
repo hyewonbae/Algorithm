@@ -3,15 +3,15 @@ import java.util.*;
 
 public class Main {
 	static int N;
-	static int[] distance;	//거리
-	static int[] prices;	//가격
-	static int min;
-	static int price;
+	static long[] distance;	//거리
+	static long[] prices;	//가격
+	static long min=Integer.MAX_VALUE;
+	static long price;
 	public static void main(String[] args) throws Exception {
 		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 		N=Integer.parseInt(br.readLine());
-		distance=new int[N-1];
-		prices=new int[N];
+		distance=new long[N-1];
+		prices=new long[N];
 		
 		StringTokenizer st=new StringTokenizer(br.readLine()," ");
 		for(int i=0;i<N-1;i++) {
