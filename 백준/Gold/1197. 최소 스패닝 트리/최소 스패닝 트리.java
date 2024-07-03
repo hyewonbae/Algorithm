@@ -27,20 +27,17 @@ public class Main {
 		for(int i=0;i<N;i++) {
 			w[i]=Integer.MAX_VALUE;
 		}
-		
+			
+		PriorityQueue<int[]> pq=new PriorityQueue<>((o1,o2)->Integer.compare(o1[1], o2[1]));
 		int sum=0,cnt=0;
 		w[0]=0;
-//		System.out.println(Arrays.toString(w));
+		pq.offer(new int[] {0,0});
 		
-		for(int i=0;i<N;i++) {
-			int min=Integer.MAX_VALUE;
-			int minVertex=-1;
-			for(int j=0;j<N;j++) {
-				if(!v[j] && min>w[j]) {
-					min=w[j];
-					minVertex=j;
-				}
-			}
+		while(!pq.isEmpty()) {
+			int []vc=pq.poll();
+			int min=vc[1];
+			int minVertex=vc[0];
+			if(v[minVertex])continue;
 			
 			v[minVertex]=true;
 			sum+=min;
@@ -49,6 +46,7 @@ public class Main {
 			for(int[] j:g[minVertex]) {
 				if(!v[j[0]] && w[j[0]]>j[1]) {
 							   w[j[0]]=j[1];
+							   pq.offer(j);
 					
 				}
 			}
