@@ -1,10 +1,10 @@
 import java.io.*;
 import java.util.*;
 
-//다익스트라 + sb
+//PriorityQueue 버전
 public class Main {
 	
-		public static void main(String[] args) throws Exception{
+	public static void main(String[] args) throws Exception{
 		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st=new StringTokenizer(br.readLine()," ");
 		StringBuilder sb=new StringBuilder();
@@ -26,24 +26,23 @@ public class Main {
 		boolean[] v=new boolean[N+1];
 		int[] d=new int[N+1];
 		for(int i=1;i<=N;i++)d[i]=Integer.MAX_VALUE;
-
+		
+		PriorityQueue<int[]> pq=new PriorityQueue<>((o1,o2)->Integer.compare(o1[1], o2[1]));
 		d[start]=0;
-		for(int i=0;i<N;i++) {
-			int min=Integer.MAX_VALUE;
-			int minVertex=-1;
-			
-			for(int j=1;j<=N;j++) {
-				if(!v[j] && min>d[j]) {
-							min=d[j];
-							minVertex=j;
-				}
-			}
+		pq.offer(new int[] {start,d[start]});
+		while(!pq.isEmpty()) {
+			int []vc=pq.poll();
+			int min=vc[1];			
+			int minVertex=vc[0];
+			if(v[minVertex]) continue;
 			
 			if(minVertex==-1) break;
 			v[minVertex]=true;
+			
 			for(int[] j:g[minVertex]) {
 				if(!v[j[0]] && d[j[0]]>min+j[1]) {
 							   d[j[0]]=min+j[1];
+							   pq.offer(new int[] {j[0],d[j[0]]});
 				}
 				
 			}
@@ -58,6 +57,5 @@ public class Main {
 		System.out.println(sb);
 		br.close();
 	}
-
 
 }
