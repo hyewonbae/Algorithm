@@ -1,6 +1,15 @@
 import java.io.*;
 import java.util.*;
 
+
+/**
+depth		               0
+4       	       4	        -4	
+1       	  3       5       -5          -3
+2         	1   5   3   7  -7    -3    -5    -1
+1             0 2 4 6 2 4 6 8 -8 -6 -4 -2 -6 -4 -2 0    
+
+*/
 class Solution {
     static int count = 0;
     static void dfs(int[] numbers, int depth, int target, int answer) {
