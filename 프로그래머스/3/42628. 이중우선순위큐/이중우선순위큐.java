@@ -25,12 +25,12 @@ class Solution {
                 if (value == 1){
                     int max = maxHeap.poll();
                     minHeap.remove(max);
-                    continue;
+                    // continue;
 
                 } else if(value == -1){
                     int min = minHeap.poll();
                     maxHeap.remove(min);
-                    continue;
+                    // continue;
                 }
             }
             // System.out.println("min" + " " + minHeap);
