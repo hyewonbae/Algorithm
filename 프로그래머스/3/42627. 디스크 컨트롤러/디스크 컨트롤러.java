@@ -51,7 +51,7 @@ class Solution {
         }
 
         // 소수점 이하는 버림 --> 정수형으로 변환
-        answer = (int)(total / jobs.length);
+        answer = total / jobs.length;
         return answer;
     }
 }
