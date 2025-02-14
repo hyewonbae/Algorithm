@@ -1,96 +1,62 @@
 import java.io.*;
 import java.util.*;
-
+/**
+ * 7
+ * 0110100
+ * 0110101
+ * 1110101
+ * 0000111
+ * 0100000
+ * 0111110
+ * 0111000
+ * 
+ * 3
+ * 7
+ * 8
+ * 9
+ * */
 public class Main {
-	static final int[] di= {-1,0,1,0};
-	static final int[] dj= {0,1,0,-1};
-	static int n;
-	static int[][] map;
-	static boolean[][] v;
-	static ArrayList<Integer> houseCounts;
+    static int[][] graph;
+    static int[] dx = {-1, 1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
+    static boolean[][] visited;
+    static int n, danji;
+    static ArrayList<Integer> houseCount = new ArrayList<>();
+    private static int dfs(int i, int j) {
+        visited[i][j] = true;
+        int count = 1;
+        for (int k = 0; k < 4; k++) {
+            int nx = i + dx[k];
+            int ny = j + dy[k];
+            if( nx < 0 || ny < 0 || nx >= n || ny >= n || graph[nx][ny] == 0 || visited[nx][ny] == true ) continue;
+            count += dfs(nx, ny);
 
-    static int houseCount;
-    
-	static void dfs(int i,int j) {
-		v[i][j]=true;
-		houseCount++;
-		for(int d=0;d<4;d++) {
-			int ni=i+di[d];
-			int nj=j+dj[d];
-			if(0<=ni && ni<n && 0<=nj && nj<n && !v[ni][nj] && map[ni][nj] ==1) {
-				dfs(ni,nj);
-			}
-		}
-	}
-	
-	
-	static void bfs(int i, int j) {
-		ArrayDeque<int[]> q=new ArrayDeque<>();
-		v[i][j]=true;
-		q.offer(new int[]{i,j});
-
-		while(!q.isEmpty()) {
-			int[] ij=q.poll();
-			i=ij[0];
-			j=ij[1];
-			houseCount++;
-			for(int d=0;d<4;d++) {
-				int ni=i+di[d];
-				int nj=j+dj[d];
-				if(0<=ni&&ni<n && 0<=nj&&nj<n && !v[ni][nj] && map[ni][nj] == 1) {
-					v[ni][nj]=true;
-					q.offer(new int[]{ni,nj});
-				}
-			}
-		}
-	}
-	
-	
-	public static void main(String[] args) throws Exception {
-		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-		StringBuilder sb = new StringBuilder();	
-		
-		n=Integer.parseInt(br.readLine());
-		map=new int[n][n];
-		v=new boolean[n][n];
-		houseCounts = new ArrayList<>(); 
-		
-		for(int i=0; i<n; i++){
+        }
+        return count;
+    }
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        n = Integer.parseInt(br.readLine());
+        graph = new int[n][n];
+        for (int i = 0; i < n; i++) {
             String str = br.readLine();
-            for(int j=0; j<n; j++){
-                map[i][j] = str.charAt(j) - '0';
+            for (int j = 0; j < n; j++) {
+                graph[i][j] = str.charAt(j) - '0';
             }
         }
-
-		for(int i=0;i<n;i++) {
-			for(int j=0;j<n;j++) {
-				if(map[i][j]==1 && !v[i][j]) {
-					houseCount=0;
-//					dfs(i,j);
-					bfs(i,j);
-					houseCounts.add(houseCount);
-				}
-			}
-		}
-		Collections.sort(houseCounts);
-		sb.append(houseCounts.size()).append("\n"); // Add the number of complexes found
-		for (int count : houseCounts) {
-		    sb.append(count).append("\n");
-		}
-		bw.write(sb.toString());
-		bw.flush();
-		bw.close();		
-		// 배열 내용 출력
-//        for (int i = 0; i < n; i++) {
-//            for (int j = 0; j < n; j++) {
-//                sb.append(map[i][j]);
-//            }
-//            sb.append("\n");
-//        }
-//
-//        System.out.println(sb.toString());
-		br.close();
-	}
-
+        visited = new boolean[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if(graph[i][j] == 1 && !visited[i][j]) {
+                    houseCount.add(dfs(i, j));
+                    danji++;
+                }
+            }
+        }
+        Collections.sort(houseCount);
+        System.out.println(danji);
+        for (int count: houseCount) {
+            System.out.println(count);
+        }
+    }
 }
