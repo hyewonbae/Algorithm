@@ -1,55 +1,49 @@
 import java.io.*;
 import java.util.*;
-
+/**
+ * 7
+ * 6
+ * 1 2
+ * 2 3
+ * 1 5
+ * 5 2
+ * 5 6
+ * 4 7
+ * 
+ * 4
+ * */
 public class Main {
-	static int N,E;
-	static int[][] g;
-	static boolean[] v;
-	static int count=0;
-	static void dfs(int num) {
-		v[num]=true;
-		for(int j=1;j<=N;j++) {
-			if(g[num][j]!=0 && !v[j]) {
-				count++;
-				dfs(j);
-			}
-		}
-		
-	}
+    static boolean visited[];
+    static ArrayList<Integer> A[];
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine());    //7
+        int m = Integer.parseInt(br.readLine());    //6
+        A = new ArrayList[n+1];
 
-	static void bfs(int num) {
-		ArrayDeque<Integer> q=new ArrayDeque<>();
-		v[num]=true;
-		q.offer(num);
-		while(!q.isEmpty()) {
-			num=q.poll();
-			for(int j=1;j<=N;j++) {
-				if(g[num][j]!=0 && !v[j]) {
-					v[j]=true;
-					q.offer(j);
-					count++;
-				}
-			}
-		}
-		
-	}
-	public static void main(String[] args) throws Exception{
-		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-		N=Integer.parseInt(br.readLine());
-		E=Integer.parseInt(br.readLine());
+        for (int i=1; i<=n; i++){
+            A[i] = new ArrayList<>();
+        }
+        for (int i=0; i<m; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int s = Integer.parseInt(st.nextToken());
+            int e = Integer.parseInt(st.nextToken());
+            A[s].add(e);
+            A[e].add(s);
+        }
+        visited = new boolean[n+1];
+        int result = dfs(1);
+        System.out.println(result);
+    }
+    private static int dfs(int s) {
+        visited[s] = true;
+        int count = 0;
+        for(int i: A[s]){
+            if(!visited[i]){
+                count += dfs(i) + 1;
 
-		g=new int[N+1][N+1];
-		v=new boolean[N+1];
-		for(int i=0;i<E;i++) {
-			StringTokenizer st=new StringTokenizer(br.readLine()," ");
-			int from=Integer.parseInt(st.nextToken());
-			int to=Integer.parseInt(st.nextToken());
-			g[from][to]=g[to][from]=1;
-		}
-//		for(int[] a:g)System.out.println(Arrays.toString(a));System.out.println();
-//		dfs(1);
-		bfs(1);
-		System.out.println(count);
-	}
-
+            }
+        }
+        return count;
+    }
 }
